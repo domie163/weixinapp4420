@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#2D6261",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "我的机电零件",
+  "usingComponents": {
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
+  }
+}

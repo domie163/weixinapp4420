@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.LingjianOrderDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.lingjian_order_uuid_number as lingjianOrderUuidNumber
+        ,a.lingjian_id as lingjianId
+        ,a.kehu_id as kehuId
+        ,a.yonghu_id as yonghuId
+        ,a.buy_number as buyNumber
+        ,a.lingjian_order_true_price as lingjianOrderTruePrice
+        ,a.lingjian_order_types as lingjianOrderTypes
+        ,a.insert_time as insertTime
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.LingjianOrderView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        <!-- 级联表的字段 -->
+        ,kehu.kehu_uuid_number as kehuUuidNumber
+        ,kehu.kehu_name as kehuName
+        ,kehu.kehu_phone as kehuPhone
+        ,kehu.kehu_id_number as kehuIdNumber
+        ,kehu.kehu_photo as kehuPhoto
+        ,kehu.sex_types as sexTypes
+        ,kehu.kehu_email as kehuEmail
+        ,kehu.new_money as newMoney
+        ,lingjian.lingjian_name as lingjianName
+        ,lingjian.lingjian_uuid_number as lingjianUuidNumber
+        ,lingjian.lingjian_photo as lingjianPhoto
+        ,lingjian.lingjian_types as lingjianTypes
+        ,lingjian.lingjian_kucun_number as lingjianKucunNumber
+        ,lingjian.lingjian_new_money as lingjianNewMoney
+        ,lingjian.lingjian_clicknum as lingjianClicknum
+        ,lingjian.lingjian_content as lingjianContent
+        ,lingjian.lingjian_delete as lingjianDelete
+        ,yonghu.yonghu_uuid_number as yonghuUuidNumber
+        ,yonghu.yonghu_name as yonghuName
+        ,yonghu.yonghu_phone as yonghuPhone
+        ,yonghu.yonghu_id_number as yonghuIdNumber
+        ,yonghu.yonghu_photo as yonghuPhoto
+        ,yonghu.yonghu_email as yonghuEmail
+
+        FROM lingjian_order  a
+        left JOIN kehu kehu ON a.kehu_id = kehu.id
+        left JOIN lingjian lingjian ON a.lingjian_id = lingjian.id
+        left JOIN yonghu yonghu ON a.yonghu_id = yonghu.id
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test=" params.lingjianOrderUuidNumber != '' and params.lingjianOrderUuidNumber != null and params.lingjianOrderUuidNumber != 'null' ">
+                and a.lingjian_order_uuid_number like CONCAT('%',#{params.lingjianOrderUuidNumber},'%')
+            </if>
+            <if test="params.lingjianId != null and params.lingjianId != ''">
+                and (
+                    a.lingjian_id = #{params.lingjianId}
+                )
+            </if>
+            <if test="params.kehuId != null and params.kehuId != ''">
+                and (
+                    a.kehu_id = #{params.kehuId}
+                )
+            </if>
+            <if test="params.yonghuId != null and params.yonghuId != ''">
+                and (
+                    a.yonghu_id = #{params.yonghuId}
+                )
+            </if>
+            <if test="params.buyNumberStart != null and params.buyNumberStart != ''">
+                <![CDATA[  and a.buy_number >= #{params.buyNumberStart}   ]]>
+            </if>
+            <if test="params.buyNumberEnd != null and params.buyNumberEnd != ''">
+                <![CDATA[  and a.buy_number <= #{params.buyNumberEnd}   ]]>
+            </if>
+             <if test="params.buyNumber != null and params.buyNumber != ''">
+                and a.buy_number = #{params.buyNumber}
+             </if>
+            <if test="params.lingjianOrderTruePriceStart != null ">
+                <![CDATA[  and a.lingjian_order_true_price >= #{params.lingjianOrderTruePriceStart}   ]]>
+            </if>
+            <if test="params.lingjianOrderTruePriceEnd != null ">
+                <![CDATA[  and a.lingjian_order_true_price <= #{params.lingjianOrderTruePriceEnd}   ]]>
+            </if>
+            <if test="params.lingjianOrderTruePrice != null and params.lingjianOrderTruePrice != ''">
+                and a.lingjian_order_true_price = #{params.lingjianOrderTruePrice}
+            </if>
+            <if test="params.lingjianOrderTypes != null and params.lingjianOrderTypes != ''">
+                and a.lingjian_order_types = #{params.lingjianOrderTypes}
+            </if>
+            <if test=" params.insertTimeStart != '' and params.insertTimeStart != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.insert_time) >= UNIX_TIMESTAMP(#{params.insertTimeStart}) ]]>
+            </if>
+            <if test=" params.insertTimeEnd != '' and params.insertTimeEnd != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(a.insert_time) <= UNIX_TIMESTAMP(#{params.insertTimeEnd}) ]]>
+            </if>
+            <if test="params.insertTime != null and params.insertTime != ''">
+                and a.insert_time = #{params.insertTime}
+            </if>
+
+                <!-- 判断客户的id不为空 -->
+            <if test=" params.kehuIdNotNull != '' and params.kehuIdNotNull != null and params.kehuIdNotNull != 'null' ">
+                and a.kehu_id IS NOT NULL
+            </if>
+            <if test=" params.kehuUuidNumber != '' and params.kehuUuidNumber != null and params.kehuUuidNumber != 'null' ">
+                and kehu.kehu_uuid_number like CONCAT('%',#{params.kehuUuidNumber},'%')
+            </if>
+            <if test=" params.kehuName != '' and params.kehuName != null and params.kehuName != 'null' ">
+                and kehu.kehu_name like CONCAT('%',#{params.kehuName},'%')
+            </if>
+            <if test=" params.kehuPhone != '' and params.kehuPhone != null and params.kehuPhone != 'null' ">
+                and kehu.kehu_phone like CONCAT('%',#{params.kehuPhone},'%')
+            </if>
+            <if test=" params.kehuIdNumber != '' and params.kehuIdNumber != null and params.kehuIdNumber != 'null' ">
+                and kehu.kehu_id_number like CONCAT('%',#{params.kehuIdNumber},'%')
+            </if>
+            <if test="params.sexTypes != null  and params.sexTypes != ''">
+                and kehu.sex_types = #{params.sexTypes}
+            </if>
+
+            <if test=" params.kehuEmail != '' and params.kehuEmail != null and params.kehuEmail != 'null' ">
+                and kehu.kehu_email like CONCAT('%',#{params.kehuEmail},'%')
+            </if>
+            <if test="params.newMoneyStart != null ">
+                <![CDATA[  and kehu.new_money >= #{params.newMoneyStart}   ]]>
+            </if>
+            <if test="params.newMoneyEnd != null ">
+                <![CDATA[  and kehu.new_money <= #{params.newMoneyEnd}   ]]>
+            </if>
+            <if test="params.newMoney != null and params.newMoney != ''">
+                and a.new_money = #{params.newMoney}
+            </if>
+                <!-- 判断机电零件的id不为空 -->
+            <if test=" params.lingjianIdNotNull != '' and params.lingjianIdNotNull != null and params.lingjianIdNotNull != 'null' ">
+                and a.lingjian_id IS NOT NULL
+            </if>
+            <if test=" params.lingjianName != '' and params.lingjianName != null and params.lingjianName != 'null' ">
+                and lingjian.lingjian_name like CONCAT('%',#{params.lingjianName},'%')
+            </if>
+            <if test=" params.lingjianUuidNumber != '' and params.lingjianUuidNumber != null and params.lingjianUuidNumber != 'null' ">
+                and lingjian.lingjian_uuid_number like CONCAT('%',#{params.lingjianUuidNumber},'%')
+            </if>
+            <if test="params.lingjianTypes != null  and params.lingjianTypes != ''">
+                and lingjian.lingjian_types = #{params.lingjianTypes}
+            </if>
+
+            <if test="params.lingjianKucunNumberStart != null  and params.lingjianKucunNumberStart != '' ">
+                <![CDATA[  and lingjian.lingjian_kucun_number >= #{params.lingjianKucunNumberStart}   ]]>
+            </if>
+            <if test="params.lingjianKucunNumberEnd != null  and params.lingjianKucunNumberEnd != '' ">
+                <![CDATA[  and lingjian.lingjian_kucun_number <= #{params.lingjianKucunNumberEnd}   ]]>
+            </if>
+            <if test="params.lingjianKucunNumber != null  and params.lingjianKucunNumber != '' ">
+                and lingjian.lingjian_kucun_number = #{params.lingjianKucunNumber}
+            </if>
+            <if test="params.lingjianNewMoneyStart != null ">
+                <![CDATA[  and lingjian.lingjian_new_money >= #{params.lingjianNewMoneyStart}   ]]>
+            </if>
+            <if test="params.lingjianNewMoneyEnd != null ">
+                <![CDATA[  and lingjian.lingjian_new_money <= #{params.lingjianNewMoneyEnd}   ]]>
+            </if>
+            <if test="params.lingjianNewMoney != null and params.lingjianNewMoney != ''">
+                and a.lingjian_new_money = #{params.lingjianNewMoney}
+            </if>
+            <if test="params.lingjianClicknumStart != null  and params.lingjianClicknumStart != '' ">
+                <![CDATA[  and lingjian.lingjian_clicknum >= #{params.lingjianClicknumStart}   ]]>
+            </if>
+            <if test="params.lingjianClicknumEnd != null  and params.lingjianClicknumEnd != '' ">
+                <![CDATA[  and lingjian.lingjian_clicknum <= #{params.lingjianClicknumEnd}   ]]>
+            </if>
+            <if test="params.lingjianClicknum != null  and params.lingjianClicknum != '' ">
+                and lingjian.lingjian_clicknum = #{params.lingjianClicknum}
+            </if>
+            <if test=" params.lingjianContent != '' and params.lingjianContent != null and params.lingjianContent != 'null' ">
+                and lingjian.lingjian_content like CONCAT('%',#{params.lingjianContent},'%')
+            </if>
+            <if test="params.lingjianDeleteStart != null  and params.lingjianDeleteStart != '' ">
+                <![CDATA[  and lingjian.lingjian_delete >= #{params.lingjianDeleteStart}   ]]>
+            </if>
+            <if test="params.lingjianDeleteEnd != null  and params.lingjianDeleteEnd != '' ">
+                <![CDATA[  and lingjian.lingjian_delete <= #{params.lingjianDeleteEnd}   ]]>
+            </if>
+            <if test="params.lingjianDelete != null  and params.lingjianDelete != '' ">
+                and lingjian.lingjian_delete = #{params.lingjianDelete}
+            </if>
+            <if test=" params.insertTimeStart != '' and params.insertTimeStart != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(lingjian.insert_time) >= UNIX_TIMESTAMP(#{params.insertTimeStart}) ]]>
+            </if>
+            <if test=" params.insertTimeEnd != '' and params.insertTimeEnd != null ">
+                <![CDATA[  and UNIX_TIMESTAMP(lingjian.insert_time) <= UNIX_TIMESTAMP(#{params.insertTimeEnd}) ]]>
+            </if>
+            <if test="params.insertTime != null and params.insertTime != ''">
+                and a.insert_time = #{params.insertTime}
+            </if>
+                <!-- 判断用户的id不为空 -->
+            <if test=" params.yonghuIdNotNull != '' and params.yonghuIdNotNull != null and params.yonghuIdNotNull != 'null' ">
+                and a.yonghu_id IS NOT NULL
+            </if>
+            <if test=" params.yonghuUuidNumber != '' and params.yonghuUuidNumber != null and params.yonghuUuidNumber != 'null' ">
+                and yonghu.yonghu_uuid_number like CONCAT('%',#{params.yonghuUuidNumber},'%')
+            </if>
+            <if test=" params.yonghuName != '' and params.yonghuName != null and params.yonghuName != 'null' ">
+                and yonghu.yonghu_name like CONCAT('%',#{params.yonghuName},'%')
+            </if>
+            <if test=" params.yonghuPhone != '' and params.yonghuPhone != null and params.yonghuPhone != 'null' ">
+                and yonghu.yonghu_phone like CONCAT('%',#{params.yonghuPhone},'%')
+            </if>
+            <if test=" params.yonghuIdNumber != '' and params.yonghuIdNumber != null and params.yonghuIdNumber != 'null' ">
+                and yonghu.yonghu_id_number like CONCAT('%',#{params.yonghuIdNumber},'%')
+            </if>
+            <if test=" params.yonghuEmail != '' and params.yonghuEmail != null and params.yonghuEmail != 'null' ">
+                and yonghu.yonghu_email like CONCAT('%',#{params.yonghuEmail},'%')
+            </if>
+        </where>
+        order by a.${params.sort} ${params.order}
+    </select>
+
+</mapper>

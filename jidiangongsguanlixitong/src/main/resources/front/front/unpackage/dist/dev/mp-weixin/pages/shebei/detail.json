@@ -1,0 +1,11 @@
+{
+  "navigationBarBackgroundColor": "#2D6261",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "机电设备详情",
+  "usingComponents": {
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
+    "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "u-qrcode": "/uni_modules/Sansnn-uQRCode/components/u-qrcode/u-qrcode",
+    "uni-number-box": "/uni_modules/uni-number-box/components/uni-number-box/uni-number-box"
+  }
+}

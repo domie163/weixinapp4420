@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dao.KehuDao">
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        a.id as id
+        ,a.kehu_uuid_number as kehuUuidNumber
+        ,a.kehu_name as kehuName
+        ,a.kehu_phone as kehuPhone
+        ,a.kehu_id_number as kehuIdNumber
+        ,a.kehu_photo as kehuPhoto
+        ,a.sex_types as sexTypes
+        ,a.kehu_email as kehuEmail
+        ,a.new_money as newMoney
+        ,a.create_time as createTime
+    </sql>
+    <select id="selectListView" parameterType="map" resultType="com.entity.view.KehuView" >
+        SELECT
+        <include refid="Base_Column_List" />
+        <!-- 级联表的字段 -->
+
+        FROM kehu  a
+
+        <where>
+            <if test="params.ids != null">
+                and a.id in
+                <foreach item="item" index="index" collection="params.ids" open="(" separator="," close=")">
+                #{item}
+                </foreach>
+            </if>
+            <if test=" params.kehuUuidNumber != '' and params.kehuUuidNumber != null and params.kehuUuidNumber != 'null' ">
+                and a.kehu_uuid_number like CONCAT('%',#{params.kehuUuidNumber},'%')
+            </if>
+            <if test=" params.kehuName != '' and params.kehuName != null and params.kehuName != 'null' ">
+                and a.kehu_name like CONCAT('%',#{params.kehuName},'%')
+            </if>
+            <if test=" params.kehuPhone != '' and params.kehuPhone != null and params.kehuPhone != 'null' ">
+                and a.kehu_phone like CONCAT('%',#{params.kehuPhone},'%')
+            </if>
+            <if test=" params.kehuIdNumber != '' and params.kehuIdNumber != null and params.kehuIdNumber != 'null' ">
+                and a.kehu_id_number like CONCAT('%',#{params.kehuIdNumber},'%')
+            </if>
+            <if test="params.sexTypes != null and params.sexTypes != ''">
+                and a.sex_types = #{params.sexTypes}
+            </if>
+            <if test=" params.kehuEmail != '' and params.kehuEmail != null and params.kehuEmail != 'null' ">
+                and a.kehu_email like CONCAT('%',#{params.kehuEmail},'%')
+            </if>
+            <if test="params.newMoneyStart != null ">
+                <![CDATA[  and a.new_money >= #{params.newMoneyStart}   ]]>
+            </if>
+            <if test="params.newMoneyEnd != null ">
+                <![CDATA[  and a.new_money <= #{params.newMoneyEnd}   ]]>
+            </if>
+            <if test="params.newMoney != null and params.newMoney != ''">
+                and a.new_money = #{params.newMoney}
+            </if>
+
+        </where>
+        order by a.${params.sort} ${params.order}
+    </select>
+
+</mapper>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "机电零件订单添加/修改",
+  "usingComponents": {
+    "w-picker": "/components/w-picker/w-picker"
+  }
+}

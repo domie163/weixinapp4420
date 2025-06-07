@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#2D6261",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "机电公司管理信息系统首页",
+  "usingComponents": {
+    "uni-icons": "/components/uni-ui/lib/uni-icons/uni-icons"
+  }
+}

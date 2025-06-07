@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "机电零件订单",
+  "usingComponents": {
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni"
+  }
+}

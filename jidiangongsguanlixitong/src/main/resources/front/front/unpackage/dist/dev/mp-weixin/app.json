@@ -1,0 +1,100 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/register/register",
+    "pages/forget/forget",
+    "pages/changepassword/changepassword",
+    "pages/center/center",
+    "pages/user-info/userinfo",
+    "pages/gonggao/list",
+    "pages/gonggao/list2",
+    "pages/gonggao/add-or-update",
+    "pages/gonggao/detail",
+    "pages/kaoqin/list",
+    "pages/kaoqin/list2",
+    "pages/kaoqin/add-or-update",
+    "pages/kaoqin/detail",
+    "pages/kehu/list",
+    "pages/kehu/list2",
+    "pages/kehu/add-or-update",
+    "pages/kehu/detail",
+    "pages/lingjian/list",
+    "pages/lingjian/list2",
+    "pages/lingjian/add-or-update",
+    "pages/lingjian/detail",
+    "pages/lingjianOrder/list",
+    "pages/lingjianOrder/add-or-update",
+    "pages/lingjianOrder/confirm",
+    "pages/qingjia/list",
+    "pages/qingjia/list2",
+    "pages/qingjia/add-or-update",
+    "pages/qingjia/detail",
+    "pages/shebei/list",
+    "pages/shebei/list2",
+    "pages/shebei/add-or-update",
+    "pages/shebei/detail",
+    "pages/shebeiOrder/list",
+    "pages/shebeiOrder/add-or-update",
+    "pages/shebeiOrder/confirm",
+    "pages/yonghu/list",
+    "pages/yonghu/list2",
+    "pages/yonghu/add-or-update",
+    "pages/yonghu/detail",
+    "pages/index/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "机电公司管理信息系统",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#FFFFFF",
+    "selectedColor": "#fff",
+    "borderStyle": "black",
+    "backgroundColor": "#c4c595",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabs/index.png",
+        "selectedIconPath": "static/tabs/index1.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/gonggao/list",
+        "iconPath": "static/tabs/type.png",
+        "selectedIconPath": "static/tabs/type1.png",
+        "text": "公告"
+      },
+      {
+        "pagePath": "pages/lingjian/list",
+        "iconPath": "static/tabs/type.png",
+        "selectedIconPath": "static/tabs/type1.png",
+        "text": "机电零件"
+      },
+      {
+        "pagePath": "pages/shebei/list",
+        "iconPath": "static/tabs/type.png",
+        "selectedIconPath": "static/tabs/type1.png",
+        "text": "机电设备"
+      },
+      {
+        "pagePath": "pages/center/center",
+        "iconPath": "static/tabs/mine.png",
+        "selectedIconPath": "static/tabs/mine1.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序将使用定位功能"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
+  "usingComponents": {}
+}
